@@ -1,6 +1,9 @@
 import {createStore, combineReducers} from 'redux'
 import React,{Component} from 'react'
 import ReactDom from 'react-dom'
+import AddTodo from '../component/AddTodo.js'
+import ListTodo from '../component/ListTodo.js'
+import Footer from '../component/Footer.js'
 let gid = 0;
 const todos = (state=[], action) => {
 	switch(action.type) {
@@ -49,60 +52,33 @@ class TodoApp extends Component {
 			}
 			return true
 		})
-		const arr = todos.map((todo,key) => {
-			let styles = {}
-			if(!todo.active) {
-				styles = {
-					textDecoration: 'line-through'
-				}
-			}
-			return <li key={key} style={styles}onClick={() => {
-				store.dispatch({
-					type: 'toggle_todo',
-					id: todo.id
-				})
-			}}>{todo.text} </li>
-		})
+		
 		return (
 			<div>
-				<input type='text' ref='input'/>
-				<button onClick={() => {
-					store.dispatch({
-						type: 'add_todo',
-						text: this.refs.input.value
-					})
-				}}>click</button>
-				<ul>
-					{arr}
-				</ul>
-				<div>
-				{visibleFilter === 'show_all'? 
-				<span>showAll{' '}</span> :
-				<a href="#" onClick={() => {
-					store.dispatch({
-						type: 'set_filter',
-						filter: 'show_all'
-					})
-				}}>showAll{' '}</a>}
-				{visibleFilter === 'active'? 
-				<span>Active{' '}</span> :
-				<a href="#" onClick={() => {
+				<AddTodo 
+					onClick={(val) => {
+						store.dispatch({
+							type: 'add_todo',
+							text: val
+						})
+					}}/>
+				<ListTodo
+					todos={todos}
+					onClickTodo={(id) => {
+							store.dispatch({
+								type: 'toggle_todo',
+								id: id
+							})
+						}
+					}/>
+				<Footer
+				 visibleFilter={visibleFilter}
+				 onClickFooter={(v1) => {
 					store.dispatch({
 						type: 'set_filter',
-						filter: 'active'
+						filter: v1
 					})
-				}}>Active{' '}</a>}
-				{visibleFilter === 'completed'? 
-				<span>Completed</span> :
-				<a href="#" onClick={() => {
-					store.dispatch({
-						type: 'set_filter',
-						filter: 'completed'
-					})
-				}}>Completed</a>}
-					
-					
-				</div>
+				}}/>
 			</div>
 		)
 	}
