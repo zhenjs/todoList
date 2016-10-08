@@ -16,11 +16,6 @@ class AddTodo extends Component {
 		)
 	}
 }
-const mapStateToProps = (state) => {
-	return {
-		
-	}
-}
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onClick: (val) => {
@@ -31,5 +26,5 @@ const mapDispatchToProps = (dispatch) => {
 				}
 	}
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AddTodo);
+export default connect(null, mapDispatchToProps)(AddTodo);
 

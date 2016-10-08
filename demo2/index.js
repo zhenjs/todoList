@@ -1,9 +1,9 @@
 import {createStore, combineReducers} from 'redux'
 import React,{Component} from 'react'
 import ReactDom from 'react-dom'
-import AddTodo from '../component/AddTodo.js'
-import ListTodo from '../component/ListTodo.js'
-import Footer from '../component/Footer.js'
+import AddTodo from '../containers/AddTodo.js'
+import ListTodo from '../containers/ListTodo.js'
+import Footer from '../containers/Footer.js'
 import {Provider} from 'react-redux'
 
 let gid = 0;
