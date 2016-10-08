@@ -4,6 +4,8 @@ import ReactDom from 'react-dom'
 import AddTodo from '../component/AddTodo.js'
 import ListTodo from '../component/ListTodo.js'
 import Footer from '../component/Footer.js'
+import {Provider} from 'react-redux'
+
 let gid = 0;
 const todos = (state=[], action) => {
 	switch(action.type) {
@@ -55,31 +57,25 @@ class TodoApp extends Component {
 					}}/>
 				<ListTodo/>
 				<Footer
-				 visibleFilter={visibleFilter}
-				 onClickFooter={(v1) => {
-					store.dispatch({
-						type: 'set_filter',
-						filter: v1
-					})
-				}}/>
+				 visibleFilter={visibleFilter}/>
 			</div>
 		)
 	}
 
 }
-class Provider extends Component {
-	 getChildContext() {
-	 	return {store: this.props.store}
-	 }
-	 render () {
-	 	return (
-	 		this.props.children
-	 	)
-	 }
-}
-Provider.childContextTypes = {
-	store: React.PropTypes.object
-}
+// class Provider extends Component {
+// 	 getChildContext() {
+// 	 	return {store: this.props.store}
+// 	 }
+// 	 render () {
+// 	 	return (
+// 	 		this.props.children
+// 	 	)
+// 	 }
+// }
+// Provider.childContextTypes = {
+// 	store: React.PropTypes.object
+// }
 
 const render = () => {
 	ReactDom.render(

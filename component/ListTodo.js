@@ -1,54 +1,90 @@
 import React,{Component} from 'react';
 import ReactDom from 'react-dom';
+// import {connect} from 'react-redux'
 
 class ListTodo extends Component {
-	componentDidMount () {
-		const store = this.context.store;
-		this.unsubscribe = store.subscribe(() => {
-			this.forceUpdate()
-		})
+	// componentDidMount () {
+	// 	const store = this.context.store;
+	// 	this.unsubscribe = store.subscribe(() => {
+	// 		this.forceUpdate()
+	// 	})
 
-	}
-	componentWillUnmount () {
-		this.unsubscribe
-	}
+	// }
+	// componentWillUnmount () {
+	// 	this.unsubscribe
+	// }
 	render () {
-		const store = this.context.store;
-		const state = store.getState()
-		let {todos, visibleFilter} = state
-		todos = todos.filter((todo) => {
-			if (visibleFilter == 'completed') {
-				return !todo.active
-			}
-			if (visibleFilter == 'active') {
-				return todo.active
-			}
-			return true
-		})
+		
+		
+		
 		return (
 			<ul>
-					{todos.map((todo,key) => {
-						let styles = {}
-						if(!todo.active) {
-							styles = {
-								textDecoration: 'line-through'
-							}
+				{this.props.todos.map((todo,key) => {
+					let styles = {}
+					if(!todo.active) {
+						styles = {
+							textDecoration: 'line-through'
 						}
-						return <li key={key} style={styles}onClick={() => {
-							store.dispatch({
-								type: 'toggle_todo',
-								id: todo.id
-							})
-						}
-					}>{todo.text} </li>
-					})}
-				</ul>
+					}
+					return <li key={key} style={styles}onClick={() => {
+						this.props.onClickTodo(todo.id)
+					}}>{todo.text} </li>
+				})}
+			</ul>
 
 		)
 	}
 }
-					
-ListTodo.contextTypes = {
-	store: React.PropTypes.object
+const connect = (mapStateToProps,mapDispatchToProps) => {
+	return (WrapperComponent) => {
+		class Connect extends Component {
+			componentDidMount () {
+				const store = this.context.store;
+				this.unsubscribe = store.subscribe(() => {
+					this.forceUpdate()
+				})
+
+			}
+			componentWillUnmount () {
+				this.unsubscribe()
+			}
+			render () {
+				const store = this.context.store;
+				const stateProps = mapStateToProps(store.getState())
+				const dispatchProps = mapDispatchToProps(store.dispatch)
+				const props = Object.assign({}, stateProps,dispatchProps)
+				return  React.createElement(WrapperComponent, props)
+			}
+		}
+		Connect.contextTypes = {
+			store: React.PropTypes.object
+		}
+		return Connect;
+	}
+
+}					
+
+const mapStateToProps = (state) => {
+	return {
+		todos: state.todos.filter((todo) => {
+			if (state.visibleFilter == 'completed') {
+				return !todo.active
+			}
+			if (state.visibleFilter == 'active') {
+				return todo.active
+			}
+			return true
+		})
+	}
 }
-export default ListTodo;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onClickTodo: (id) => {
+							dispatch({
+								type: 'toggle_todo',
+								id: id
+							})
+						}
+	}
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ListTodo);
