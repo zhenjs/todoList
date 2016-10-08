@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import ReactDom from 'react-dom';
-// import {connect} from 'react-redux'
+import {connect} from 'react-redux'
 
 class ListTodo extends Component {
 	// componentDidMount () {
@@ -35,34 +35,6 @@ class ListTodo extends Component {
 		)
 	}
 }
-const connect = (mapStateToProps,mapDispatchToProps) => {
-	return (WrapperComponent) => {
-		class Connect extends Component {
-			componentDidMount () {
-				const store = this.context.store;
-				this.unsubscribe = store.subscribe(() => {
-					this.forceUpdate()
-				})
-
-			}
-			componentWillUnmount () {
-				this.unsubscribe()
-			}
-			render () {
-				const store = this.context.store;
-				const stateProps = mapStateToProps(store.getState())
-				const dispatchProps = mapDispatchToProps(store.dispatch)
-				const props = Object.assign({}, stateProps,dispatchProps)
-				return  React.createElement(WrapperComponent, props)
-			}
-		}
-		Connect.contextTypes = {
-			store: React.PropTypes.object
-		}
-		return Connect;
-	}
-
-}					
 
 const mapStateToProps = (state) => {
 	return {

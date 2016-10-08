@@ -48,16 +48,9 @@ class TodoApp extends Component {
 		
 		return (
 			<div>
-				<AddTodo 
-					onClick={(val) => {
-						store.dispatch({
-							type: 'add_todo',
-							text: val
-						})
-					}}/>
+				<AddTodo/>
 				<ListTodo/>
-				<Footer
-				 visibleFilter={visibleFilter}/>
+				<Footer/>
 			</div>
 		)
 	}

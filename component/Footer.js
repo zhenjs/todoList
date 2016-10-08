@@ -1,47 +1,26 @@
 import React,{Component} from 'react';
 import ReactDom from 'react-dom';
+import {connect} from 'react-redux';
 
 class Footer extends Component {
-	
-		componentDidMount () {
-			const store = this.context.store;
-			this.unsubscribe = store.subscribe(() => {
-				this.forceUpdate()
-			})
 
-		}
-	componentWillUnmount () {
-		this.unsubscribe
-	}
 	render () {
-		const store = this.context.store;
-		const state = store.getState()
-		let {todos, visibleFilter} = state
 		return (
 			<div>
-				{visibleFilter === 'show_all'? 
+				{this.props.visibleFilter === 'show_all'? 
 				<span>showAll{' '}</span> :
 				<a href="#" onClick={() => {
-					store.dispatch({
-						type: 'set_filter',
-						filter: 'show_all'
-					})
+					this.props.onClickFooter('show_all')
 				}}>showAll{' '}</a>}
-				{visibleFilter === 'active'? 
+				{this.props.visibleFilter === 'active'? 
 				<span>Active{' '}</span> :
-				<a href="#" onClick={() => {
-					store.dispatch({
-						type: 'set_filter',
-						filter: 'active'
-					})
+				<a href="#"  onClick={() => {
+					this.props.onClickFooter('active')
 				}}>Active{' '}</a>}
-				{visibleFilter === 'completed'? 
+				{this.props.visibleFilter === 'completed'? 
 				<span>Completed</span> :
-				<a href="#" onClick={() => {
-					store.dispatch({
-						type: 'set_filter',
-						filter: 'completed'
-					})
+				<a href="#"  onClick={() => {
+					this.props.onClickFooter('completed')
 				}}>Completed</a>}
 					
 					
@@ -50,7 +29,19 @@ class Footer extends Component {
 		)
 	}
 }
-Footer.contextTypes = {
-	store: React.PropTypes.object
+const mapStateToProps = (state) => {
+	return {
+		visibleFilter: state.visibleFilter
+	}
 }
-export default Footer;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onClickFooter: (filter) => {
+			dispatch({
+				type: 'set_filter',
+				filter: filter
+			})
+		}
+	}
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Footer);

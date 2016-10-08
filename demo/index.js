@@ -69,33 +69,32 @@ import ReactDom from 'react-dom';
 // store.subscribe(() => {
 // 	render()
 // })
-// render()
-// let Demo = React.createClass ({
-//     getInitialState: function() {
-//     	return {
-//     		liked: false
-//     	}
-//     },
-//     componentDidMount: function () {
-//     	console.log(1)
-//     },
-//     handleClick: function () {
-//     	this.setState({
-//     		liked: !this.state.liked
-//     	})
-//     	console.log(this.state.liked)
-//     },
-// 	render: function() {
-// 		return (
+let Demo = React.createClass ({
+    getInitialState: function() {
+    	return {
+    		liked: false
+    	}
+    },
+    componentDidMount: function () {
+    	console.log(1)
+    },
+    handleClick: function () {
+    	this.setState({
+    		liked: !this.state.liked
+    	})
+    	console.log(this.state.liked)
+    },
+	render: function() {
+		return (
 
-// 			<div onClick={this.handleClick}>111</div>
-// 	      )
-// 	}
-// })
-// ReactDom.render (
-// 	<Demo/>,
-// 	document.getElementById('root')
-// )
+			<div onClick={this.handleClick} class="sdaf">111</div>
+	      )
+	}
+})
+ReactDom.render (
+	<Demo/>,
+	document.getElementById('root')
+)
 
 
 

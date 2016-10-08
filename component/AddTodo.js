@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import ReactDom from 'react-dom';
-
+import {connect} from 'react-redux';
 class AddTodo extends Component {
 	render () {
 		return (
@@ -16,6 +16,20 @@ class AddTodo extends Component {
 		)
 	}
 }
-
-export default AddTodo;
+const mapStateToProps = (state) => {
+	return {
+		
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onClick: (val) => {
+					dispatch({
+						type: 'add_todo',
+						text: val
+					})
+				}
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddTodo);
 
