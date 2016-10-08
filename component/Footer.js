@@ -2,24 +2,46 @@ import React,{Component} from 'react';
 import ReactDom from 'react-dom';
 
 class Footer extends Component {
+	
+		componentDidMount () {
+			const store = this.context.store;
+			this.unsubscribe = store.subscribe(() => {
+				this.forceUpdate()
+			})
+
+		}
+	componentWillUnmount () {
+		this.unsubscribe
+	}
 	render () {
-		const {onClickFooter} = this.props
+		const store = this.context.store;
+		const state = store.getState()
+		let {todos, visibleFilter} = state
 		return (
 			<div>
-				{this.props.visibleFilter === 'show_all'? 
+				{visibleFilter === 'show_all'? 
 				<span>showAll{' '}</span> :
 				<a href="#" onClick={() => {
-					onClickFooter('show_all')
+					store.dispatch({
+						type: 'set_filter',
+						filter: 'show_all'
+					})
 				}}>showAll{' '}</a>}
-				{this.props.visibleFilter === 'active'? 
+				{visibleFilter === 'active'? 
 				<span>Active{' '}</span> :
 				<a href="#" onClick={() => {
-					onClickFooter('active')
+					store.dispatch({
+						type: 'set_filter',
+						filter: 'active'
+					})
 				}}>Active{' '}</a>}
-				{this.props.visibleFilter === 'completed'? 
+				{visibleFilter === 'completed'? 
 				<span>Completed</span> :
 				<a href="#" onClick={() => {
-					onClickFooter('completed')
+					store.dispatch({
+						type: 'set_filter',
+						filter: 'completed'
+					})
 				}}>Completed</a>}
 					
 					
@@ -28,5 +50,7 @@ class Footer extends Component {
 		)
 	}
 }
-
+Footer.contextTypes = {
+	store: React.PropTypes.object
+}
 export default Footer;

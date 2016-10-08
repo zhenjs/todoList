@@ -43,15 +43,6 @@ class TodoApp extends Component {
 		const {dispatch, getState} = store;
 		const state = getState();
 		let {todos, visibleFilter} = state;
-		todos = todos.filter((todo) => {
-			if (visibleFilter == 'completed') {
-				return !todo.active
-			}
-			if (visibleFilter == 'active') {
-				return todo.active
-			}
-			return true
-		})
 		
 		return (
 			<div>
@@ -62,15 +53,7 @@ class TodoApp extends Component {
 							text: val
 						})
 					}}/>
-				<ListTodo
-					todos={todos}
-					onClickTodo={(id) => {
-							store.dispatch({
-								type: 'toggle_todo',
-								id: id
-							})
-						}
-					}/>
+				<ListTodo/>
 				<Footer
 				 visibleFilter={visibleFilter}
 				 onClickFooter={(v1) => {
@@ -84,16 +67,33 @@ class TodoApp extends Component {
 	}
 
 }
+class Provider extends Component {
+	 getChildContext() {
+	 	return {store: this.props.store}
+	 }
+	 render () {
+	 	return (
+	 		this.props.children
+	 	)
+	 }
+}
+Provider.childContextTypes = {
+	store: React.PropTypes.object
+}
+
 const render = () => {
 	ReactDom.render(
-		<TodoApp/>,
+		<Provider store={store}>
+			<TodoApp/>
+		</Provider>,
 		document.getElementById('root')
 	)
 }
+
 render()
-store.subscribe(() => {
-	render()
-})
+// store.subscribe(() => {
+// 	render()
+// })
 // const reducer = (state='asdf',action) => {
 
 // }
