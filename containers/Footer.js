@@ -27,7 +27,7 @@ class Footer extends Component {
 				</FilterLink>
 				{' '}
 				<FilterLink 
-					filter='avtive'
+					filter='active'
 					currentFilter={this.props.visibleFilter}
 					onClick={() => {
 						this.props.onClickFooter('active')

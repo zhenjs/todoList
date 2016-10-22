@@ -5,14 +5,13 @@ import AddTodo from '../containers/AddTodo.js'
 import ListTodo from '../containers/ListTodo.js'
 import Footer from '../containers/Footer.js'
 import {Provider} from 'react-redux'
-
-let gid = 0;
+import {saveState, getState} from '../localStorage.js'
 const todos = (state=[], action) => {
 	switch(action.type) {
 		case 'add_todo':
 			return [...state, ...[{
 				text: action.text,
-				id: gid++,
+				id: Math.random(),
 				active: true,
 
 			}]]
@@ -38,8 +37,13 @@ const visibleFilter = (state='show_all', action) => {
 	}
 }
 
-const visibleTodos = combineReducers({todos, visibleFilter})
-var store = createStore(visibleTodos)
+const visibleTodos = combineReducers({todos, visibleFilter});
+var mockState = getState();
+var store = createStore(visibleTodos, mockState)
+console.log(store.getState())
+store.subscribe(() => {
+	saveState(store.getState())
+})
 class TodoApp extends Component {
 	render() {
 		const {dispatch, getState} = store;
