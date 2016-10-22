@@ -1,12 +1,11 @@
 
-import React,{Component} from 'react'
+
 import ReactDom from 'react-dom'
-import AddTodo from '../containers/AddTodo.js'
-import ListTodo from '../containers/ListTodo.js'
-import Footer from '../containers/Footer.js'
-import {Provider} from 'react-redux'
+
 
 import store from '../configureStore.js'
+import Root from '../components/Root.js'
+import React from 'react';
 
 
 
@@ -14,23 +13,6 @@ import store from '../configureStore.js'
 
 
 
-
-class TodoApp extends Component {
-	render() {
-		const {dispatch, getState} = store;
-		const state = getState();
-		let {todos, visibleFilter} = state;
-		
-		return (
-			<div>
-				<AddTodo/>
-				<ListTodo/>
-				<Footer/>
-			</div>
-		)
-	}
-
-}
 // class Provider extends Component {
 // 	 getChildContext() {
 // 	 	return {store: this.props.store}
@@ -47,9 +29,7 @@ class TodoApp extends Component {
 
 const render = () => {
 	ReactDom.render(
-		<Provider store={store}>
-			<TodoApp/>
-		</Provider>,
+		<Root store={store}/>,
 		document.getElementById('root')
 	)
 }
