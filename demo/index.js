@@ -1,100 +1,70 @@
-import {createStore} from 'redux';
-import React,{Component}from 'react';
-import ReactDom from 'react-dom';
 
-// const reducer = (state = 0, action) => {
-// 	switch (action.type) {
-// 		case 'Increase':
-// 			return state + 1;
-// 		case 'Decrease':
-// 			return state - 1;
-// 		default:
-// 			return state
-// 	}
+import React,{Component} from 'react'
+import ReactDom from 'react-dom'
+import AddTodo from '../containers/AddTodo.js'
+import ListTodo from '../containers/ListTodo.js'
+import Footer from '../containers/Footer.js'
+import {Provider} from 'react-redux'
+
+import store from '../configureStore.js'
+
+
+
+
+
+
+
+
+class TodoApp extends Component {
+	render() {
+		const {dispatch, getState} = store;
+		const state = getState();
+		let {todos, visibleFilter} = state;
+		
+		return (
+			<div>
+				<AddTodo/>
+				<ListTodo/>
+				<Footer/>
+			</div>
+		)
+	}
+
+}
+// class Provider extends Component {
+// 	 getChildContext() {
+// 	 	return {store: this.props.store}
+// 	 }
+// 	 render () {
+// 	 	return (
+// 	 		this.props.children
+// 	 	)
+// 	 }
 // }
-// const createStore = (reducer) => {
-// 	let state;
-// 	let arr = [];
-// 	const getState = () => {
-// 		return state
-// 	}
-// 	const dispatch = (action) => {
-// 		state = reducer(getState(), action);
-// 		arr.map(function (cb) {
-// 			cb(getState())
-// 		})
-// 	}
-// 	const subscribe = (cb) => {
-// 		arr.push(cb)
-// 	}
-
-
-// 	return {
-// 		getState,
-// 		dispatch,
-// 		subscribe,
-// 	}
-// }
-
-// const store = createStore(reducer);
-
-// const Counter = () => {
-// 	const {getState, dispatch} = store
-// 	const Increase = () => {
-// 		dispatch({
-// 			type: 'Increase'
-// 		})
-// 	}
-// 	const Decrease = () => {
-// 		dispatch({
-// 			type: 'Decrease'
-// 		})
-// 	}
-// 	return (
-// 		<div>
-// 			<h1>{getState()}</h1>
-// 			<button onClick={Increase}>+</button>
-// 			<button onClick={Decrease}>-</button>
-// 		</div>
-
-// 	)
-// }
-// const render = () => {
-// 	ReactDom.render(
-// 		<Counter/>,
-// 		document.getElementById('root')
-// 	)
+// Provider.childContextTypes = {
+// 	store: React.PropTypes.object
 // }
 
+const render = () => {
+	ReactDom.render(
+		<Provider store={store}>
+			<TodoApp/>
+		</Provider>,
+		document.getElementById('root')
+	)
+}
+
+render()
 // store.subscribe(() => {
 // 	render()
 // })
-let Demo = React.createClass ({
-    getInitialState: function() {
-    	return {
-    		liked: false
-    	}
-    },
-    componentDidMount: function () {
-    	console.log(1)
-    },
-    handleClick: function () {
-    	this.setState({
-    		liked: !this.state.liked
-    	})
-    	console.log(this.state.liked)
-    },
-	render: function() {
-		return (
+// const reducer = (state='asdf',action) => {
 
-			<div onClick={this.handleClick} class="sdaf">111</div>
-	      )
-	}
-})
-ReactDom.render (
-	<Demo/>,
-	document.getElementById('root')
-)
+// }
+// const reducer2 = (state='asdfsdf',action) => {
 
-
-
+// }
+// const mix = combineReducers({reducer, reducer2})
+// const store = createStore(mix).getState();
+// const {reducer, reducer2} = store
+// console.log(reducer)

@@ -2,7 +2,9 @@
 
 export const saveState = (state) => {
     try {
-        const data = JSON.stringify(state);
+        const data = JSON.stringify({
+            todos: state.todos
+        });
         localStorage.setItem('state', data);
     }catch(err){
         
