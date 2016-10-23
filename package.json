@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server --progress --colors --devtool source-map"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "node-uuid": "^1.4.7",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-redux": "^4.4.5"
+    "react-redux": "^4.4.5",
+    "react-router": "^3.0.0-alpha.1"
   }
 }

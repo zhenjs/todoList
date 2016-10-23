@@ -9,29 +9,17 @@ class Footer extends Component {
 		return (
 			<div>
 				<FilterLink 
-					filter='show_all'
-					currentFilter={this.props.visibleFilter}
-					onClick={() => {
-						this.props.onClickFooter('show_all')
-					}}>
+					filter='all'>
 					Show all
 				</FilterLink>
 				{' '}
 				<FilterLink 
-					filter='completed'
-					currentFilter={this.props.visibleFilter}
-					onClick={() => {
-						this.props.onClickFooter('completed')
-					}}>
+					filter='completed'>
 					Show completed
 				</FilterLink>
 				{' '}
 				<FilterLink 
-					filter='active'
-					currentFilter={this.props.visibleFilter}
-					onClick={() => {
-						this.props.onClickFooter('active')
-					}}>
+					filter='active'>
 					Show active
 				</FilterLink>
 				{' '}
@@ -42,19 +30,4 @@ class Footer extends Component {
 		)
 	}
 }
-const mapStateToProps = (state) => {
-	return {
-		visibleFilter: state.visibleFilter
-	}
-}
-const mapDispatchToProps = (dispatch) => {
-	return {
-		onClickFooter: (filter) => {
-			dispatch({
-				type: 'set_filter',
-				filter: filter
-			})
-		}
-	}
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Footer);
+export default Footer;

@@ -1,12 +1,28 @@
 import React,{Component} from 'react';
 import ReactDom from 'react-dom';
-import {connect} from 'react-redux'
-
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
+const getVisibleTodos = (todos, visibleFilter) => {
+	switch(visibleFilter) {
+		case 'all':
+			return todos;
+		case 'completed':
+			return todos.filter((todo) => {
+				return !todo.active
+			});
+		case 'active':
+		return todos.filter((todo) => {
+			return todo.active
+		})
+		default: 
+			return new Error('unknow filter')
+	}
+}
 class ListTodo extends Component {
 	// componentDidMount () {
 	// 	const store = this.context.store;
 	// 	this.unsubscribe = store.subscribe(() => {
-	// 		this.forceUpdate()
+	// 		this.forceUpdate() 
 	// 	})
 
 	// }
@@ -14,7 +30,6 @@ class ListTodo extends Component {
 	// 	this.unsubscribe
 	// }
 	render () {
-		
 		
 		
 		return (
@@ -36,17 +51,10 @@ class ListTodo extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+	console.log(ownProps.params.filter)
 	return {
-		todos: state.todos.filter((todo) => {
-			if (state.visibleFilter == 'completed') {
-				return !todo.active
-			}
-			if (state.visibleFilter == 'active') {
-				return todo.active
-			}
-			return true
-		})
+		todos: getVisibleTodos(state.todos, ownProps.params.filter || 'all')
 	}
 }
 const mapDispatchToProps = (dispatch) => {
@@ -59,4 +67,4 @@ const mapDispatchToProps = (dispatch) => {
 						}
 	}
 }
-export default connect(mapStateToProps,mapDispatchToProps)(ListTodo);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(ListTodo));
