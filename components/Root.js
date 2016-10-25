@@ -3,7 +3,6 @@ import {Provider} from 'react-redux';
 import React from 'react';
 import App from './App.js';
 import {Router, Route, hashHistory, browserHistory} from 'react-router';
-console.log(browserHistory)
 const Root = ({store}) => (
     <Provider store={store}>
 			<Router history={browserHistory}>

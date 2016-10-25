@@ -9,7 +9,7 @@ module.exports = {
 	module: {
 		loaders: [{
 			text: /\.js$/,
-			loader:'babel',
+			loader:'babel-loader',
 			query:{
 				presets:['react','es2015']
 			}

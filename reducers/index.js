@@ -10,5 +10,26 @@ import todos from './todo.js';
 //         return newState
 //     }
 // }
+
+
 export default combineReducers({todos});
+
+export const getVisibleTodos = (state, visibleFilter) => {
+    let todos = state.todos.allIds.map((id) => state.todos.byId[id])
+	console.log(todos)
+	switch(visibleFilter) {
+		case 'all':
+			return todos;
+		case 'completed':
+			return todos.filter((todo) => {
+				return !todo.active
+			});
+		case 'active':
+		return todos.filter((todo) => {
+			return todo.active
+		})
+		default: 
+			return new Error('unknow filter')
+	}
+}
 
