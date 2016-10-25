@@ -16,7 +16,6 @@ class ListTodo extends Component {
 	// }
 	render () {
 		
-		
 		return (
 			<ul>
 				{this.props.todos.map((todo,key) => {
@@ -26,6 +25,7 @@ class ListTodo extends Component {
 							textDecoration: 'line-through'
 						}
 					}
+
 					return <li key={key} style={styles}onClick={() => {
 						this.props.onClickTodo(todo.id)
 					}}>{todo.text} </li>
@@ -37,7 +37,6 @@ class ListTodo extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	console.log(1)
 	return {
 		todos: getVisibleTodos(state, ownProps.params.filter || 'all')
 	}

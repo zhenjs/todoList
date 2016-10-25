@@ -10,7 +10,8 @@ const byId = (state={}, action) => {
             }
             return newState;
         case 'toggle_todo': 
-            state[action.id] = Object.assign({}, state[action.id], {active: !state[action.id].active})
+            state[action.id] = false
+            console.log(action.id)
             return state;
         default:
             return state; 

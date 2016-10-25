@@ -16,7 +16,6 @@ export default combineReducers({todos});
 
 export const getVisibleTodos = (state, visibleFilter) => {
     let todos = state.todos.allIds.map((id) => state.todos.byId[id])
-	console.log(todos)
 	switch(visibleFilter) {
 		case 'all':
 			return todos;
