@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import ReactDom from 'react-dom';
 import {connect} from 'react-redux';
-import {v4} from 'node-uuid';
+import {addTodo} from '../actions/'
 class AddTodo extends Component {
 	render () {
 		return (
@@ -20,11 +20,7 @@ class AddTodo extends Component {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onClick: (val) => {
-					dispatch({
-						type: 'add_todo',
-						text: val,
-						id: v4()
-					})
+					dispatch(addTodo(val))
 				}
 	}
 }

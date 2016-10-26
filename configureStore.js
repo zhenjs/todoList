@@ -11,9 +11,16 @@ const addLoggerToDispatch = (store) => {
 		return ref;
 	}
 }
+const addThunkToDispatch = (store) => {
+	const rowDispatch = store.dispatch;
+	return (action) => {
+		typeof action == 'function' ? action(store.dispatch) : rowDispatch(action);
+	}
+}
 const configureStore = () => {
 	var store = createStore(visibleTodos);
 	store.dispatch = addLoggerToDispatch(store);
+	store.dispatch = addThunkToDispatch(store);
 	return store;
 }
 

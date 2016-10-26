@@ -1,6 +1,6 @@
 
 import {combineReducers} from 'redux'
-import todos from './todo.js';
+import todos, * as fromTodos from './todo.js';
 // const combineReducers = (reducers) => {
 //     return (state={}, action) => {
 //         var newState = {};
@@ -10,12 +10,20 @@ import todos from './todo.js';
 //         return newState
 //     }
 // }
+// const combineReducers = (reducers) => {
+// 	return (state={}, action) => {
+// 		var newState = {};
+// 		Object.keys(reducers).map((key) => {
+// 			newState[key] = reducers[key](state[key], action)
+			
+// 		})
+// 		return newState
+// 	}
+// }
 
-
-export default combineReducers({todos});
 
 export const getVisibleTodos = (state, visibleFilter) => {
-    let todos = state.todos.allIds.map((id) => state.todos.byId[id])
+    let todos = fromTodos.getAllTodos(state.todos);
 	switch(visibleFilter) {
 		case 'all':
 			return todos;
@@ -31,4 +39,7 @@ export const getVisibleTodos = (state, visibleFilter) => {
 			return new Error('unknow filter')
 	}
 }
+
+
+export default combineReducers({todos});
 

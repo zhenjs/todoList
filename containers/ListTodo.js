@@ -2,7 +2,8 @@ import React,{Component} from 'react';
 import ReactDom from 'react-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {getVisibleTodos} from '../reducers/'
+import {getVisibleTodos} from '../reducers/';
+import {toggleTodo, receiveTodo, fetchTodos} from '../actions/'
 class ListTodo extends Component {
 	// componentDidMount () {
 	// 	const store = this.context.store;
@@ -14,6 +15,22 @@ class ListTodo extends Component {
 	// componentWillUnmount () {
 	// 	this.unsubscribe
 	// }
+	componentDidMount () {
+		this.fetchData()
+		
+	}
+	componentDidUpdate(prevProps) {
+		if(prevProps.filter !== this.props.filter) {
+			this.fetchData()
+		}
+		console.log(prevProps.filter + '----' + this.props.filter)
+	}
+	fetchData () {
+		// fetchTodos(this.props.filter).then((response) => {
+		// 	this.props.onReceiveTodos(response, this.props.filter )
+		// })
+		this.props.onfetchTodos(this.props.filter)
+	}
 	render () {
 		
 		return (
@@ -37,18 +54,23 @@ class ListTodo extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+	const filter =  ownProps.params.filter || 'all';
 	return {
-		todos: getVisibleTodos(state, ownProps.params.filter || 'all')
+		todos: getVisibleTodos(state, filter),
+		filter
 	}
 }
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onClickTodo: (id) => {
-							dispatch({
-								type: 'toggle_todo',
-								id: id
-							})
-						}
+			dispatch(toggleTodo(id))
+		},
+		onReceiveTodos: (response, filter) => {
+			dispatch(receiveTodo(response))
+		},
+		onfetchTodos: (filter) => {
+			dispatch(fetchTodos(filter))
+		}
 	}
 }
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(ListTodo));
