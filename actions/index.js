@@ -24,7 +24,7 @@ const receiveTodo = (response, filter) => {
 export const fetchTodos = (filter) => {
     return (dispatch) => {
         api.fetchTodos(filter).then((response) => {
-            dispatch(receiveTodo(response));
+            dispatch(receiveTodo(response, filter));
         })
     }
 }

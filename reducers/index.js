@@ -1,28 +1,9 @@
 import {combineReducers} from 'redux';
-const byId = (state={}, action) => {
-    switch(action.type) {
-        case 'add_todo':
-            let nextState = Object.assign({}, state);
-            nextState[action.id] = {
-                text: action.text,
-                id: action.id,
-                active: true,
-            }
-            return nextState;
-        case 'toggle_todo': 
-            state[action.id] = Object.assign({}, state[action.id], {active: !state[action.id]})
-            return state;
-        case 'receive_todo': 
-            nextState = {};
-            action.response.forEach((todo) => {
-                nextState[todo.id] = todo;
-            })
-            return nextState;
-        default:
-            return state; 
-    }
-}
+import {byId} from 'byId.js'
 const allIds = (state=[], action) => {
+    if ('all' !== action.filter) {
+        return state
+    };
     switch(action.type) {
         case 'add_todo':
             return [...state, action.id];
@@ -32,11 +13,42 @@ const allIds = (state=[], action) => {
             return state; 
     }
 }
+const completeIds = (state=[], action) => {
+    if ('complete' !== action.filter) {
+        return state
+    };
+    switch(action.type) {
+        case 'add_todo':
+            return [...state, action.id];
+        case 'receive_todo' :
+            return action.response.map((todo) => todo.id)
+        default:
+            return state; 
+    }
+}
+const activeIds = (state=[], action) => {
+    if ('active' !== action.filter) {
+        return state
+    };
+    switch(action.type) {
+        case 'add_todo':
+            return [...state, action.id];
+        case 'receive_todo' :
+            return action.response.map((todo) => todo.id)
+        default:
+            return state; 
+    }
+}
+const idsByFilter = combineReducers({
+    all: allIds,
+    complete: completeIds,
+    active: activeIds
+})
 export default combineReducers({
                     byId,
-                    allIds
+                    idsByFilter
                 });
                 
-export const getAllTodos = (state) => {
-    return state.allIds.map(id => state.byId[id]);
+export const getVisibleTodos() => {
+    
 }
