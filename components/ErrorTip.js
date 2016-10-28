@@ -7,3 +7,4 @@ const ErrorTip = ({message, onRetry}) => (
         <button onClick = {onRetry}>Click retry</button>
     </div>
 )
+export default ErrorTip

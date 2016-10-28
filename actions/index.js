@@ -1,19 +1,14 @@
 
 import {v4} from 'node-uuid';
 import * as api from '../api/'
-export const toggleTodo = (id) => {
-    return {
-        type: 'toggle_todo',
-        id: id
-    }
-}
-export const addTodo = (val) => {
-    return {
-        type: 'add_todo',
-        text: val,
-        id: v4()
-	}
-}
+
+// export const addTodo = (val) => {
+//     return {
+//         type: 'add_todo',
+//         text: val,
+//         id: v4()
+// 	}
+// }
 const receiveTodo = (response, filter) => {
     return {
         type: 'fetch_todos_success',
@@ -35,6 +30,28 @@ export const fetchTodos = (filter) => {
             dispatch(receiveTodo(response, filter));
         },(error) => {
             dispatch(fetchTodosFailure(error.message || 'some error happen'));
+        })
+    }
+}
+const addTodoSuccess = (response) => ({
+    type: 'add_todo_success',
+    response
+})
+export const addTodo = (text) => {
+    return (dispatch, getState) => {
+        api.addTodo(text).then((response) => {
+            dispatch(addTodoSuccess(response));
+        })    
+    }
+}
+const toggleTodoSuccess = (response) => ({
+    type: 'toggle_todo_success',
+    response
+})
+export const toggleTodo = (id) => {
+    return (dispatch, getState) => {
+        api.toggleTodo(id).then((response) => {
+            dispatch(toggleTodoSuccess(response))
         })
     }
 }

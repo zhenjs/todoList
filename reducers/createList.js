@@ -1,14 +1,26 @@
 import {combineReducers} from 'redux';
 const createList = (filter) => {
     const ids =  (state=[], action) => {
-        if (filter !== action.filter) {
-            return state
-        };
+        
         switch(action.type) {
-            case 'add_todo':
-                return [...state, action.id];
-            case 'receive_todos_success':
+            case 'add_todo_success':
+                if(filter == 'completed') {
+                    return state;
+                }
+                return [...state, action.response.id];
+            case 'fetch_todos_success':
+                if (filter !== action.filter) {
+                    return state
+                };
                 return action.response.map((todo) => todo.id)
+            case 'toggle_todo_success': 
+                let shoudRemove = (filter == 'completed' && action.response.active) ||
+                    (filter == 'active' && !action.response.active);
+                    console.log(shoudRemove)
+                // if(shoudRemove){
+                //     return state.filter(id => id !== action.response.id)
+                // }
+                return shoudRemove ? state.filter(id => id !== action.response.id) : state;
             default:
                 return state; 
         }
@@ -16,9 +28,9 @@ const createList = (filter) => {
 
     const isFetching = (state=false, action) => {
         switch(action.type) {
-            case 'receive_todos_success':
+            case 'fetch_todos_success':
                 return false;
-            case 'request_todos_request':
+            case 'fetch_todos_request':
                 return true;
             default:
                 return state; 
@@ -26,8 +38,8 @@ const createList = (filter) => {
     }
     const errorMessage = (state="", action) => {
         switch(action.type) {
-            case 'receive_todos_success':
-            case 'request_todos_request':
+            case 'fetch_todos_success':
+            case 'fetch_todos_request':
                 return '';
             case 'fetch_todos_failure':
                 return action.message;

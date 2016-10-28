@@ -2,18 +2,12 @@
 
 const byId = (state={}, action) => {
     switch(action.type) {
-        case 'add_todo':
+        case 'add_todo_success':
+        case 'toggle_todo_success': 
             let nextState = Object.assign({}, state);
-            nextState[action.id] = {
-                text: action.text,
-                id: action.id,
-                active: true,
-            }
+            nextState[action.response.id] = action.response;
             return nextState;
-        case 'toggle_todo': 
-            state[action.id] = Object.assign({}, state[action.id], {active: !state[action.id]})
-            return state;
-        case 'receive_todos_success': 
+        case 'fetch_todos_success': 
             nextState = Object.assign({}, state);
             action.response.forEach((todo) => {
                 nextState[todo.id] = todo;

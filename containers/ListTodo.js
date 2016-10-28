@@ -35,19 +35,19 @@ class ListTodo extends Component {
 	render () {
 		 console.log(this.props)
 		 const {todos, isFetching, errorMessage} = this.props;
-		 if (isFetching && todos.length <= 0) {
-			 return <div>
-			 	Loading.....
-			 </div>
-		 }
-		 if(errorMessage && todo.length <=0) {
-			 alert(1)
+		 if(errorMessage && todos.length <=0) {
 			 return <ErrorTip 
 			 message={errorMessage}
 			 onRetry={() => {
 				 this.fetchData();
 			 }}/>
 		 }
+		 if (isFetching && todos.length <= 0) {
+			 return <div>
+			 	Loading.....
+			 </div>
+		 }
+		 
 		return (
 			 
 			<ul>
@@ -74,7 +74,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		todos: getVisibleTodos(state, filter),
 		isFetching: getIsFetching(state, filter),
-		errorMessage: getErrorMessage(state, filter).
+		errorMessage: getErrorMessage(state, filter),
 		filter,
 	}
 }
