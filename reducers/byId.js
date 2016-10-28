@@ -13,7 +13,7 @@ const byId = (state={}, action) => {
         case 'toggle_todo': 
             state[action.id] = Object.assign({}, state[action.id], {active: !state[action.id]})
             return state;
-        case 'receive_todo': 
+        case 'receive_todos_success': 
             nextState = Object.assign({}, state);
             action.response.forEach((todo) => {
                 nextState[todo.id] = todo;

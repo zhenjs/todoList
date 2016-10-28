@@ -16,19 +16,25 @@ export const addTodo = (val) => {
 }
 const receiveTodo = (response, filter) => {
     return {
-        type: 'receive_todo',
+        type: 'fetch_todos_success',
         response,
         filter,
     }
 }
 const requestTodo = () => ({
-     type: 'request_todo'
+     type: 'fetch_todos_request'
+})
+const fetchTodosFailure = (message) => ({
+     type: 'fetch_todos_failure',
+     message
 })
 export const fetchTodos = (filter) => {
     return (dispatch) => {
         dispatch(requestTodo());
         api.fetchTodos(filter).then((response) => {
             dispatch(receiveTodo(response, filter));
+        },(error) => {
+            dispatch(fetchTodosFailure(error.message || 'some error happen'));
         })
     }
 }

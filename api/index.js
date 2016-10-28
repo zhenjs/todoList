@@ -34,7 +34,9 @@ const mockData = [{
 }];
 
 export const fetchTodos = (visibleFilter) => {
+    
     return delay(1000).then((todos) => {
+        throw new Error('blood boom')
         switch(visibleFilter) {
 		case 'all':
 			return mockData;
