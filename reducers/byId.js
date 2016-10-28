@@ -14,7 +14,7 @@ const byId = (state={}, action) => {
             state[action.id] = Object.assign({}, state[action.id], {active: !state[action.id]})
             return state;
         case 'receive_todo': 
-            nextState = {};
+            nextState = Object.assign({}, state);
             action.response.forEach((todo) => {
                 nextState[todo.id] = todo;
             })
@@ -24,3 +24,4 @@ const byId = (state={}, action) => {
     }
 }
 export default byId
+export const getTodo = (state, id) => state[id];

@@ -21,8 +21,12 @@ const receiveTodo = (response, filter) => {
         filter,
     }
 }
+const requestTodo = () => ({
+     type: 'request_todo'
+})
 export const fetchTodos = (filter) => {
     return (dispatch) => {
+        dispatch(requestTodo());
         api.fetchTodos(filter).then((response) => {
             dispatch(receiveTodo(response, filter));
         })

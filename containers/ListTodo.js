@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import ReactDom from 'react-dom';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {getVisibleTodos} from '../reducers/';
+import {getVisibleTodos, getIsFetching} from '../reducers/';
 import {toggleTodo, receiveTodo, fetchTodos} from '../actions/'
 class ListTodo extends Component {
 	// componentDidMount () {
@@ -32,10 +32,16 @@ class ListTodo extends Component {
 		this.props.onfetchTodos(this.props.filter)
 	}
 	render () {
-		
+		 const {todos, isFetching} = this.props;
+		 if (isFetching && todos.length <= 0) {
+			 return <div>
+			 	Loading.....
+			 </div>
+		 }
 		return (
+			 
 			<ul>
-				{this.props.todos.map((todo,key) => {
+				{todos.map((todo,key) => {
 					let styles = {}
 					if(!todo.active) {
 						styles = {
@@ -57,7 +63,8 @@ const mapStateToProps = (state, ownProps) => {
 	const filter =  ownProps.params.filter || 'all';
 	return {
 		todos: getVisibleTodos(state, filter),
-		filter
+		isFetching: getIsFetching(state, filter),
+		filter,
 	}
 }
 const mapDispatchToProps = (dispatch) => {
